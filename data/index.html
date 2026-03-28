@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Paketkasten Setup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --primary-color: #007bff;
+      --primary-color-hover: #0056b3;
+      --danger-color: #dc3545;
+      --danger-color-hover: #c82333;
+      --light-bg: #f8f9fa;
+      --dark-bg: #212529;
+      --light-color: #212529;
+      --dark-color: #f8f9fa;
+      --light-border: #dee2e6;
+      --dark-border: #495057;
+      --light-input-bg: #fff;
+      --dark-input-bg: #343a40;
+      --success-color: #28a745;
+      --off-color: #6c757d;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--light-bg);
+      color: var(--light-color);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h1,
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      border-bottom: 1px solid var(--light-border);
+      padding-bottom: 10px;
+      margin-top: 20px;
+    }
+
+    .divider {
+      border-top: 1px solid var(--light-border);
+      margin: 20px 0;
+    }
+
+    .box {
+      background-color: var(--light-input-bg);
+      padding: 20px 30px 30px 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    input[type="range"],
+    select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid var(--light-border);
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      border: 1px solid transparent;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border-radius: 4px;
+      text-decoration: none;
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 10px;
+    }
+
+    .btn-primary {
+      color: #fff;
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-color-hover);
+      border-color: var(--primary-color-hover);
+    }
+
+    .btn-danger {
+      color: #fff;
+      background-color: var(--danger-color);
+      border-color: var(--danger-color);
+    }
+
+    .btn-danger:hover {
+      background-color: var(--danger-color-hover);
+      border-color: var(--danger-color-hover);
+    }
+
+    .btn.icon-btn {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0;
+    }
+
+    .icon-btn .icon {
+      padding: 12px;
+      font-size: 1.2em;
+    }
+
+    .icon-btn .separator {
+      border-left: 1px solid rgba(255, 255, 255, 0.4);
+      align-self: stretch;
+    }
+
+    .icon-btn .text {
+      flex-grow: 1;
+      text-align: center;
+      padding: 12px;
+    }
+
+    .code-entry {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .code-entry input {
+      flex: 1;
+      margin-right: 10px;
+      margin-bottom: 0;
+    }
+
+    .remove-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      background-color: var(--danger-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .remove-btn:hover {
+      background-color: var(--danger-color-hover);
+    }
+
+    .diagnostics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+    }
+
+    .diagnostic-item {
+      background: var(--light-bg);
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid var(--light-border);
+    }
+
+    .diagnostic-item .label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .diagnostic-item .value {
+      font-family: monospace;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+
+    .status-on {
+      background-color: var(--success-color);
+    }
+
+    .status-off {
+      background-color: var(--off-color);
+    }
+
+    .setting-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    input:checked+.slider {
+      background-color: var(--primary-color);
+    }
+
+    input:focus+.slider {
+      box-shadow: 0 0 1px var(--primary-color);
+    }
+
+    input:checked+.slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    .slider.round:before {
+      border-radius: 50%;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: var(--dark-bg);
+        color: var(--dark-color);
+      }
+
+      .box {
+        background-color: var(--dark-input-bg);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      h2 {
+        border-bottom-color: var(--dark-border);
+      }
+
+      .divider {
+        border-top-color: var(--dark-border);
+      }
+
+      input[type="text"],
+      input[type="password"],
+      input[type="number"],
+      input[type="range"],
+      select {
+        background-color: #212529;
+        color: var(--dark-color);
+        border-color: var(--dark-border);
+      }
+
+      .diagnostic-item {
+        background: var(--dark-bg);
+        border-color: var(--dark-border);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Paketkasten Setup</h1>
+
+    <div class="box">
+      <h2>Diagnostics</h2>
+      <div class="diagnostics-grid">
+        <div class="diagnostic-item">
+          <div class="label">Closed Switch</div>
+          <div class="value"><span id="closedSwitch" class="status-indicator status-off"></span><span
+              id="closedSwitchText"></span></div>
+        </div>
+        <div class="diagnostic-item">
+          <div class="label">Parcel Switch</div>
+          <div class="value"><span id="parcelSwitch" class="status-indicator status-off"></span><span
+              id="parcelSwitchText"></span></div>
+        </div>
+        <div class="diagnostic-item">
+          <div class="label">Mail Switch</div>
+          <div class="value"><span id="mailSwitch" class="status-indicator status-off"></span><span
+              id="mailSwitchText"></span></div>
+        </div>
+        <div class="diagnostic-item">
+          <div class="label">Mailbox State</div>
+          <div class="value" id="mailboxState">-</div>
+        </div>
+        <div class="diagnostic-item">
+          <div class="label">Last Wiegand ID</div>
+          <div class="value" id="scannedId">-</div>
+        </div>
+        <div class="diagnostic-item">
+          <div class="label">Versions</div>
+          <div class="value">FW: <span id="firmwareVersion">-</span></div>
+          <div class="value">FS: <span id="uiVersion">-</span></div>
+        </div>
+        <div class="diagnostic-item">
+          <div class="label">WiFi Signal</div>
+          <div class="value" id="wifiSignal"><span id="wifiRssi">-</span> dBm <span id="wifiIcon"></span></div>
+          <div class="value" id="wifiStatus">-</div>
+        </div>
+        <div class="diagnostic-item" style="grid-column: 1 / -1;">
+          <div class="label">Actions</div>
+          <div class="value">
+            <button type="button" class="btn btn-primary icon-btn" style="margin-bottom: 5px;"
+              onclick="openMailbox('parcel')">
+              <span class="icon">📦</span>
+              <span class="separator"></span>
+              <span class="text">Open Parcel</span>
+            </button>
+            <button type="button" class="btn btn-primary icon-btn" onclick="openMailbox('all')">
+              <span class="icon">✉️</span>
+              <span class="separator"></span>
+              <span class="text">Open Mail</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="box">
+      <h2>Wiegand</h2>
+      <label>Owner Codes:</label>
+      <div id="ownerCodes"></div>
+
+      <label style="margin-top: 15px;">Delivery Codes:</label>
+      <div id="deliveryCodes"></div>
+
+      <div class="divider"></div>
+
+      <a href="/settings.html" class="btn btn-primary icon-btn">
+        <span class="icon">⚙️</span>
+        <span class="separator"></span>
+        <span class="text">Settings</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    function openMailbox(type) {
+      fetch('/open', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'type=' + encodeURIComponent(type)
+      })
+        .then(response => {
+          if (!response.ok) {
+            console.error('Error opening mailbox');
+          }
+        })
+        .catch(error => console.error('Error opening mailbox:', error));
+    }
+
+    function fetchDiagnostics() {
+      fetch('/diagnostics')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('mailboxState').textContent = data.mailbox_state || '-';
+          document.getElementById('scannedId').textContent = data.wiegand_id || '-';
+          document.getElementById('firmwareVersion').textContent = data.firmware_version || '-';
+          document.getElementById('uiVersion').textContent = "UI_VERSION_PLACEHOLDER";
+          
+          updateSwitchStatus('closedSwitch', data.closed_switch);
+          updateSwitchStatus('parcelSwitch', data.parcel_switch);
+          updateSwitchStatus('mailSwitch', data.mail_switch);
+          
+          // WiFi Signal Anzeige
+          if (data.wifi_connected) {
+            const rssi = data.wifi_rssi;
+            let icon = '📶';
+            let quality = 'Unknown';
+            if (rssi > -50) {
+              quality = 'Excellent';
+            } else if (rssi > -60) {
+              quality = 'Good';
+            } else if (rssi > -70) {
+              quality = 'Fair';
+            } else if (rssi > -80) {
+              quality = 'Weak';
+            } else {
+              quality = 'Very Weak';
+            }
+            document.getElementById('wifiRssi').textContent = rssi;
+            document.getElementById('wifiIcon').textContent = icon;
+            document.getElementById('wifiStatus').textContent = quality;
+            document.getElementById('wifiSignal').style.color = rssi > -70 ? 'var(--success-color)' : (rssi > -80 ? 'orange' : 'var(--danger-color)');
+          } else {
+            document.getElementById('wifiRssi').textContent = '-';
+            document.getElementById('wifiIcon').textContent = '❌';
+            document.getElementById('wifiStatus').textContent = 'Disconnected';
+            document.getElementById('wifiSignal').style.color = 'var(--danger-color)';
+          }
+        })
+        .catch(error => console.error('Error fetching diagnostics:', error));
+    }
+
+    function updateSwitchStatus(elementId, status) {
+      const indicator = document.getElementById(elementId);
+      const text = document.getElementById(elementId + 'Text');
+      if (status) {
+        indicator.classList.remove('status-off');
+        indicator.classList.add('status-on');
+        text.textContent = 'Active';
+      } else {
+        indicator.classList.remove('status-on');
+        indicator.classList.add('status-off');
+        text.textContent = 'Inactive';
+      }
+    }
+
+    const diagnosticsInterval = setInterval(fetchDiagnostics, 2000);
+    fetchDiagnostics();
+
+    function showCodeEntry(type, label, code) {
+      const container = document.getElementById(type + 'Codes');
+      const codeDiv = document.createElement('div');
+      codeDiv.className = 'code-entry';
+
+      const labelInput = document.createElement('input');
+      labelInput.type = 'text';
+      labelInput.className = 'label-input';
+      labelInput.value = label || '';
+      labelInput.readOnly = true;
+      labelInput.style.backgroundColor = 'var(--light-bg)';
+
+      const codeInput = document.createElement('input');
+      codeInput.type = 'text';
+      codeInput.className = 'code-input';
+      codeInput.value = code;
+      codeInput.readOnly = true;
+      codeInput.style.backgroundColor = 'var(--light-bg)';
+
+      codeDiv.appendChild(labelInput);
+      codeDiv.appendChild(codeInput);
+      container.appendChild(codeDiv);
+    }
+
+    function loadConfig() {
+      fetch('/config')
+        .then(response => response.json())
+        .then(data => {
+          const ownerCodes = JSON.parse(data.ownerCodes || '[]');
+          if (ownerCodes.length === 0) {
+            document.getElementById('ownerCodes').innerHTML += '<span style="color:var(--off-color); font-size:0.9rem;">Keine Codes konfiguriert</span>';
+          } else {
+            ownerCodes.forEach(c => showCodeEntry('owner', c.label, c.code));
+          }
+
+          const deliveryCodes = JSON.parse(data.deliveryCodes || '[]');
+          if (deliveryCodes.length === 0) {
+            document.getElementById('deliveryCodes').innerHTML += '<span style="color:var(--off-color); font-size:0.9rem;">Keine Codes konfiguriert</span>';
+          } else {
+            deliveryCodes.forEach(c => showCodeEntry('delivery', c.label, c.code));
+          }
+        })
+        .catch(error => console.error('Error fetching config:', error));
+    }
+
+    loadConfig();
+  </script>
+</body>
+
+</html>

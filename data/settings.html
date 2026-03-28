@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Paketkasten Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --primary-color: #007bff;
+      --primary-color-hover: #0056b3;
+      --danger-color: #dc3545;
+      --danger-color-hover: #c82333;
+      --light-bg: #f8f9fa;
+      --dark-bg: #212529;
+      --light-color: #212529;
+      --dark-color: #f8f9fa;
+      --light-border: #dee2e6;
+      --dark-border: #495057;
+      --light-input-bg: #fff;
+      --dark-input-bg: #343a40;
+      --success-color: #28a745;
+      --off-color: #6c757d;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--light-bg);
+      color: var(--light-color);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h1,
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      border-bottom: 1px solid var(--light-border);
+      padding-bottom: 10px;
+      margin-top: 20px;
+    }
+
+    .divider {
+      border-top: 1px solid var(--light-border);
+      margin: 20px 0;
+    }
+
+    .box {
+      background-color: var(--light-input-bg);
+      padding: 20px 30px 30px 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    input[type="range"],
+    select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid var(--light-border);
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      border: 1px solid transparent;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border-radius: 4px;
+      text-decoration: none;
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 10px;
+    }
+
+    .btn-primary {
+      color: #fff;
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-color-hover);
+      border-color: var(--primary-color-hover);
+    }
+
+    .btn-danger {
+      color: #fff;
+      background-color: var(--danger-color);
+      border-color: var(--danger-color);
+    }
+
+    .btn-danger:hover {
+      background-color: var(--danger-color-hover);
+      border-color: var(--danger-color-hover);
+    }
+
+    .btn.icon-btn {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0;
+    }
+
+    .icon-btn .icon {
+      padding: 12px;
+      font-size: 1.2em;
+    }
+
+    .icon-btn .separator {
+      border-left: 1px solid rgba(255, 255, 255, 0.4);
+      align-self: stretch;
+    }
+
+    .icon-btn .text {
+      flex-grow: 1;
+      text-align: center;
+      padding: 12px;
+    }
+
+    .code-entry {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .code-entry input {
+      flex: 1;
+      margin-right: 10px;
+      margin-bottom: 0;
+    }
+
+    .remove-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      background-color: var(--danger-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .remove-btn:hover {
+      background-color: var(--danger-color-hover);
+    }
+
+    .password-wrapper {
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    .password-wrapper input {
+      width: 100%;
+      margin-bottom: 0;
+      padding-right: 46px;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 1px;
+      top: 1px;
+      bottom: 1px;
+      width: 42px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--off-color);
+      border-radius: 0 4px 4px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .password-toggle:hover {
+      color: var(--primary-color);
+    }
+
+    .diagnostics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+    }
+
+    .diagnostic-item {
+      background: var(--light-bg);
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid var(--light-border);
+    }
+
+    .diagnostic-item .label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .diagnostic-item .value {
+      font-family: monospace;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+
+    .status-on {
+      background-color: var(--success-color);
+    }
+
+    .status-off {
+      background-color: var(--off-color);
+    }
+
+    .setting-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    input:checked+.slider {
+      background-color: var(--primary-color);
+    }
+
+    input:focus+.slider {
+      box-shadow: 0 0 1px var(--primary-color);
+    }
+
+    input:checked+.slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    .slider.round:before {
+      border-radius: 50%;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: var(--dark-bg);
+        color: var(--dark-color);
+      }
+
+      .box {
+        background-color: var(--dark-input-bg);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      h2 {
+        border-bottom-color: var(--dark-border);
+      }
+
+      .divider {
+        border-top-color: var(--dark-border);
+      }
+
+      input[type="text"],
+      input[type="password"],
+      input[type="number"],
+      input[type="range"],
+      select {
+        background-color: #212529;
+        color: var(--dark-color);
+        border-color: var(--dark-border);
+      }
+
+      .diagnostic-item {
+        background: var(--dark-bg);
+        border-color: var(--dark-border);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Settings</h1>
+
+    <form class="box" action="/save" method="post">
+      <a href="/" class="btn btn-primary icon-btn">
+        <span class="icon">&#8592;</span>
+        <span class="separator"></span>
+        <span class="text">Back to Main Page</span>
+      </a>
+
+      <h2>Wiegand</h2>
+      <div id="ownerCodes">
+        <label>Owner Codes:</label>
+      </div>
+      <button type="button" class="btn btn-primary icon-btn" onclick="addCode('owner')">
+        <span class="icon">➕</span>
+        <span class="separator"></span>
+        <span class="text">Add Owner Code</span>
+      </button>
+
+      <div id="deliveryCodes" style="margin-top: 20px;">
+        <label>Delivery Codes:</label>
+      </div>
+      <button type="button" class="btn btn-primary icon-btn" onclick="addCode('delivery')">
+        <span class="icon">➕</span>
+        <span class="separator"></span>
+        <span class="text">Add Delivery Code</span>
+      </button>
+
+      <h2>WiFi</h2>
+      <label for="ssid">SSID:</label>
+      <input type="text" id="ssid" name="ssid">
+      <label for="password">Password:</label>
+      <div class="password-wrapper">
+        <input type="password" id="password" name="password">
+        <button type="button" class="password-toggle" onclick="togglePassword('password')">👁</button>
+      </div>
+
+      <h2>HTTP Callback</h2>
+      <label for="callbackUrl">Callback URL:</label>
+      <input type="text" id="callbackUrl" name="callbackUrl" placeholder="http://[ip]/callback?comp={compartment}">
+      <p>Will be called when opening compartment.</p>
+      <p>Available variable:</p>
+      <ul>
+        <li>{compartment} = mail or parcel</li>
+      </ul>
+
+      <h2>MQTT</h2>
+      <label for="mqttServer">Server:</label>
+      <input type="text" id="mqttServer" name="mqttServer">
+      <label for="mqttPort">Port:</label>
+      <input type="number" id="mqttPort" name="mqttPort" value="1883">
+      <label for="mqttUser">User:</label>
+      <input type="text" id="mqttUser" name="mqttUser">
+      <label for="mqttPassword">Password:</label>
+      <div class="password-wrapper">
+        <input type="password" id="mqttPassword" name="mqttPassword">
+        <button type="button" class="password-toggle" onclick="togglePassword('mqttPassword')">👁</button>
+      </div>
+
+      <h2>Duty Cycles</h2>
+      <div class="label">Open: <output for="dutyCycleOpen" id="dutyCycleOpenValue"></output></div>
+      <input type="range" id="dutyCycleOpen" name="dutyCycleOpen" min="20" max="160">
+
+      <div class="label">Close: <output for="dutyCycleClose" id="dutyCycleCloseValue"></output></div>
+      <input type="range" id="dutyCycleClose" name="dutyCycleClose" min="20" max="100">
+
+      <h2>Melody</h2>
+      <label for="melodySelect">Select Melody:</label>
+      <select id="melodySelect" name="selectedMelody">
+        <option value="NOKIA_TUNE">Nokia Tune</option>
+        <option value="IMPERIAL_MARCH">Imperial March</option>
+        <option value="MARIO">Mario</option>
+        <option value="WINDOWS_XP_STARTUP">Windows XP Startup</option>
+        <option value="INTEL_INSIDE">Intel Inside</option>
+        <option value="TETRIS">Tetris</option>
+      </select>
+      <button type="button" class="btn btn-primary icon-btn" onclick="playSelectedMelody()">
+        <span class="icon">🎵</span>
+        <span class="separator"></span>
+        <span class="text">Play Melody</span>
+      </button>
+
+      <h2>Autolock</h2>
+      <div class="setting-container">
+        <label for="autolock" style="margin-bottom: 0;">Default Autolock</label>
+        <label class="switch">
+          <input type="checkbox" id="autolock" name="autolock">
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+      <input type="hidden" id="ownerCodesJson" name="ownerCodes">
+      <input type="hidden" id="deliveryCodesJson" name="deliveryCodes">
+
+
+      <div class="divider"></div>
+
+      <button type="submit" class="btn btn-primary icon-btn">
+        <span class="icon">💾</span>
+        <span class="separator"></span>
+        <span class="text">Save Configuration & Reboot</span>
+      </button>
+      <a href="/update" class="btn btn-primary icon-btn">
+        <span class="icon">🔄</span>
+        <span class="separator"></span>
+        <span class="text">Firmware Update</span>
+      </a>
+      <button type="button" class="btn btn-danger icon-btn" onclick="factoryReset()">
+        <span class="icon">⚠️</span>
+        <span class="separator"></span>
+        <span class="text">Factory Reset</span>
+      </button>
+
+    </form>
+  </div>
+
+  <script>
+    function togglePassword(id) {
+      const input = document.getElementById(id);
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    function createCodeEntry(type, label = '', code = '') {
+      const container = document.getElementById(type + 'Codes');
+      const codeDiv = document.createElement('div');
+      codeDiv.className = 'code-entry';
+
+      const labelInput = document.createElement('input');
+      labelInput.type = 'text';
+      labelInput.placeholder = 'Label';
+      labelInput.className = 'label-input';
+      labelInput.value = label;
+
+      const codeInput = document.createElement('input');
+      codeInput.type = 'text';
+      codeInput.placeholder = 'Code';
+      codeInput.className = 'code-input';
+      codeInput.value = code;
+
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'remove-btn';
+      removeBtn.innerHTML = '&times;';
+      removeBtn.onclick = function() { removeCode(this); };
+
+      codeDiv.appendChild(labelInput);
+      codeDiv.appendChild(codeInput);
+      codeDiv.appendChild(removeBtn);
+      container.appendChild(codeDiv);
+    }
+
+    function addCode(type) {
+      createCodeEntry(type);
+    }
+
+    function removeCode(button) {
+      button.parentElement.remove();
+    }
+
+    function loadConfig() {
+      fetch('/config')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('ssid').value = data.ssid || '';
+          document.getElementById('mqttServer').value = data.mqttServer || '';
+          document.getElementById('mqttPort').value = data.mqttPort || 1883;
+          document.getElementById('mqttUser').value = data.mqttUser || '';
+          document.getElementById('dutyCycleOpen').value = data.dutyCycleOpen || 120;
+          document.getElementById('dutyCycleOpenValue').value = data.dutyCycleOpen || 120;
+          document.getElementById('dutyCycleClose').value = data.dutyCycleClose || 20;
+          document.getElementById('dutyCycleCloseValue').value = data.dutyCycleClose || 20;
+          document.getElementById('melodySelect').value = data.selectedMelody || 'NOKIA_TUNE';
+          document.getElementById('callbackUrl').value = data.callbackUrl || '';
+          document.getElementById('autolock').checked = data.autolock || false;
+
+          const ownerCodes = JSON.parse(data.ownerCodes || '[]');
+          ownerCodes.forEach(c => createCodeEntry('owner', c.label, c.code));
+
+          const deliveryCodes = JSON.parse(data.deliveryCodes || '[]');
+          deliveryCodes.forEach(c => createCodeEntry('delivery', c.label, c.code));
+        })
+        .catch(error => console.error('Error fetching config:', error));
+    }
+
+    document.getElementById('dutyCycleOpen').addEventListener('input', function (e) {
+      document.getElementById('dutyCycleOpenValue').value = e.target.value;
+    });
+
+    document.getElementById('dutyCycleClose').addEventListener('input', function (e) {
+      document.getElementById('dutyCycleCloseValue').value = e.target.value;
+    });
+
+    document.querySelector('form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const ownerCodes = [];
+      document.querySelectorAll('#ownerCodes .code-entry').forEach(entry => {
+        const label = entry.querySelector('.label-input').value;
+        const code = entry.querySelector('.code-input').value;
+        if (code) ownerCodes.push({ label: label, code: code });
+      });
+      document.getElementById('ownerCodesJson').value = JSON.stringify(ownerCodes);
+
+      const deliveryCodes = [];
+      document.querySelectorAll('#deliveryCodes .code-entry').forEach(entry => {
+        const label = entry.querySelector('.label-input').value;
+        const code = entry.querySelector('.code-input').value;
+        if (code) deliveryCodes.push({ label: label, code: code });
+      });
+      document.getElementById('deliveryCodesJson').value = JSON.stringify(deliveryCodes);
+
+      const formData = new FormData(e.target);
+      const data = new URLSearchParams(formData);
+
+      fetch('/save', {
+        method: 'POST',
+        body: data
+      })
+        .then(response => {
+          if (response.ok) {
+            document.querySelector('.container').innerHTML = `
+              <div class="box">
+                <h2>Configuration Saved</h2>
+                <p>The new configuration has been saved successfully.</p>
+                <p>The device is now restarting. You will be redirected to the main page in a few seconds.</p>
+                <p>If you changed the WiFi settings, this redirect might not work.</p>
+              </div>
+            `;
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 5000);
+          } else {
+            alert('Error saving configuration.');
+          }
+        })
+        .catch(error => {
+          console.error('Error saving configuration:', error);
+          alert('Error saving configuration.');
+        });
+    });
+
+    function playSelectedMelody() {
+      const selectedMelody = document.getElementById('melodySelect').value;
+      fetch('/playMelody', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'melody=' + encodeURIComponent(selectedMelody)
+      })
+        .then(response => {
+          if (!response.ok) {
+            console.error('Error playing melody');
+          }
+        })
+        .catch(error => console.error('Error playing melody:', error));
+    }
+
+    function factoryReset() {
+      if (confirm("Das Gerät auf Werkseinstellung zurücksetzen?")) {
+        fetch('/factoryreset', {
+          method: 'POST'
+        })
+          .then(response => {
+            if (response.ok) {
+              document.querySelector('.container').innerHTML = `
+                <div class="box">
+                  <h2>Factory Reset Successful</h2>
+                  <p>The device has been reset to factory settings.</p>
+                  <p>The device is now restarting. You will be redirected to the main page in a few seconds.</p>
+                  <p>If this reset changed the WiFi settings, this redirect might not work.</p>
+                </div>
+              `;
+              setTimeout(() => {
+                window.location.href = '/';
+              }, 5000);
+            } else {
+              alert('Error performing factory reset.');
+            }
+          })
+          .catch(error => {
+            console.error('Error performing factory reset:', error);
+            alert('Error performing factory reset.');
+          });
+      }
+    }
+
+    loadConfig();
+  </script>
+</body>
+
+</html>

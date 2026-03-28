@@ -1,0 +1,16 @@
+#ifndef STATE_H
+#define STATE_H
+
+enum MailboxState {
+  LOCKED,
+  PRE_OPENING_TO_PARCEL,
+  OPENING_TO_PARCEL,
+  PARCEL_OPEN,
+  PRE_OPENING_TO_MAIL,
+  OPENING_TO_MAIL,
+  MAIL_OPEN,
+  LOCKING,
+  MOTOR_ERROR
+};
+
+#endif
